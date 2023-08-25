@@ -2,8 +2,9 @@ import Link from "next/link";
 import Image from "next/image";
 
 import Logo from "./dojo-logo.png";
+import LogoutButton from "../components/logout-button";
 
-export const Navbar = () => {
+export const Navbar = ({ user }) => {
   return (
     <nav>
       <Image
@@ -13,9 +14,16 @@ export const Navbar = () => {
         quality="100"
         placeholder="blur"
       />
+
       <h1>Dojo Helpdesk</h1>
+
       <Link href="/">Dashboard</Link>
-      <Link href="/tickets">Tickets</Link>
+      <Link href="/tickets" className="mr-auto">
+        Tickets
+      </Link>
+
+      {user && <span>Hello, {user.email}</span>}
+      <LogoutButton />
     </nav>
   );
 };

@@ -1,9 +1,21 @@
-import { Navbar } from "../components/navbar";
+import { cookies } from "next/headers";
+import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 
-const DashboardLayout = ({ children }) => {
+import { Navbar } from "../components/navbar";
+import { redirect } from "next/navigation";
+
+const DashboardLayout = async ({ children }) => {
+  const supabase = createServerComponentClient({ cookies });
+  const { data } = await supabase.auth.getSession();
+
+  if (!data.session) {
+    redirect("/login");
+  }
+
   return (
     <>
-      <Navbar />
+      <Navbar user={data.session.user} />
+
       {children}
     </>
   );
